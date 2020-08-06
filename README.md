@@ -1,9 +1,4 @@
 # samples-doc_telidloggers_android / Android DOC sample code for TELID®300 dataloggers
-This repository contains sample codes to communicate with Micro-Sensys RFID readers in DOC mode with TELID® dataloggers on Android
-
-
-# samples-spc_android / Android SPC sample codes
-
 This sample code is for handling **TELID®300.nfc** dataloggers on Android devices using the device integrated NFC interface.
 
 [Test LINK: TELID®300.nfc DataLoggers](../doc/communication-modes/spc)
