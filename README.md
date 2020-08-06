@@ -29,7 +29,7 @@ In the *onCreate* function the availability of NFC functionality will be checked
 
 ## Useful Links
 
- - [AAR Library und API documentation](https://www.microsensys.de/downloads/DevSamples/Libraries/Android/TELID300nfc%20-%20aar%20library/)
+ - [AAR Library and API documentation](https://www.microsensys.de/downloads/DevSamples/Libraries/Android/TELID300nfc%20-%20aar%20library/)
  - [Try out our TELID®soft NFC Android application!](https://play.google.com/store/apps/details?id=de.microsensys.telidsoftnfc)
 
 ## Contact
