@@ -1,8 +1,7 @@
 # samples-doc_telidloggers_android / Android DOC sample code for TELID®300 dataloggers
 This sample code is for handling **TELID®300.nfc** dataloggers on Android devices using the device integrated NFC interface.
 
-[Test LINK: TELID®300.nfc DataLoggers](../doc/communication-modes/spc)
-//TODO Add link See "..."
+> For details on DOC communication check [Useful Links](#Useful-Links) 
 
 ## Requirements
 * Android Studio
@@ -20,7 +19,7 @@ Afterwards a read or program can be started using the functions available.
 Just import this project into Android Studio, connect the Android device to your computer and deploy the SampleApp.
 In the *onCreate* function the availability of NFC functionality will be checked. In the *onResume* function there is a snippet to check if the NFC interface is enabled
 
-//TODO screenshot!!
+> **TODO screenshot!!**
 <!--- ![Screenshot](screenshot/SampleApp_SpcControl_AndroidJava.png) --->
 
  1. Tap TELID®300.nfc logger
@@ -29,8 +28,10 @@ In the *onCreate* function the availability of NFC functionality will be checked
 
 ## Useful Links
 
- - [AAR Library and API documentation](https://www.microsensys.de/downloads/DevSamples/Libraries/Android/TELID300nfc%20-%20aar%20library/)
- - [Try out our TELID®soft NFC Android application!](https://play.google.com/store/apps/details?id=de.microsensys.telidsoftnfc)
+* [AAR Library and API documentation](https://www.microsensys.de/downloads/DevSamples/Libraries/Android/TELID300nfc%20-%20aar%20library/)
+* [Try out our TELID®soft NFC Android application!](https://play.google.com/store/apps/details?id=de.microsensys.telidsoftnfc)
+* GitHub *doc* repository: [Micro-Sensys/doc](https://github.com/Micro-Sensys/doc)
+	* [communication-modes/doc](https://github.com/Micro-Sensys/doc/tree/master/communication-modes/doc)
 
 ## Contact
 
