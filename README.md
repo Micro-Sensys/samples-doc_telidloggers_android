@@ -19,8 +19,7 @@ Afterwards a read or program can be started using the functions available.
 Just import this project into Android Studio, connect the Android device to your computer and deploy the SampleApp.
 In the *onCreate* function the availability of NFC functionality will be checked. In the *onResume* function there is a snippet to check if the NFC interface is enabled
 
-> **TODO screenshot!!**
-<!--- ![Screenshot](screenshot/SampleApp_SpcControl_AndroidJava.png) --->
+![Screenshot](screenshot/TELID300Library_SampleCode.png)
 
  1. Tap TELID®300.nfc logger
  2. Data logger information will be read and provided using **TELIDLoggerCallback**
