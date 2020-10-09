@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <Button
+        android:id="@+id/button_ReadLog"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="READ LOG"
+        app:layout_constraintTop_toBottomOf="@id/textViewTop"
+        app:layout_constraintEnd_toStartOf="@id/button_Program"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/button_Program"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="PROGRAM"
+        app:layout_constraintTop_toBottomOf="@id/textViewTop"
+        app:layout_constraintStart_toEndOf="@id/button_ReadLog"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/editText_Results"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:gravity="bottom"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/button_ReadLog"
+        app:layout_constraintBottom_toTopOf="@id/editText_Measurements"/>
+    <EditText
+        android:id="@+id/editText_Measurements"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scrollbars="vertical"
+        android:gravity="bottom"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

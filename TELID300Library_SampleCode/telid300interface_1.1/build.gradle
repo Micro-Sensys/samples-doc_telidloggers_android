@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('telid300interface_1.1.aar'))
+dependencies {
+}
