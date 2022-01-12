@@ -1,15 +1,21 @@
 package de.microsensys.telid300library_samplecode;
 
-import android.content.DialogInterface;
+import static de.microsensys.telid300interface.helper.Constants.Humidity;
+import static de.microsensys.telid300interface.helper.Constants.Light;
+import static de.microsensys.telid300interface.helper.Constants.Pressure;
+import static de.microsensys.telid300interface.helper.Constants.Shock;
+import static de.microsensys.telid300interface.helper.Constants.Temperature;
+import static de.microsensys.telid300interface.helper.Constants.UvIndex;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,8 +33,6 @@ import de.microsensys.telid300interface.TELIDProgramParameters;
 import de.microsensys.telid300interface.TELIDStateInformation;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final int Request_NfcEnable = 10000;
 
     TextView mTextViewTop;
     Button mButtonReadLog;
@@ -51,44 +55,42 @@ public class MainActivity extends AppCompatActivity {
         mTextViewTop = findViewById(R.id.textViewTop);
         mTextViewTop.setText("Created");
         mButtonProgram = findViewById(R.id.button_Program);
-        mButtonProgram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.SECOND, 0);
-                startTime.add(Calendar.MINUTE, 10);
-                Calendar stopTime = (Calendar)startTime.clone();
-                stopTime.add(Calendar.DAY_OF_MONTH, 1);
-                TELIDProgramParameters progParams = new TELIDProgramParameters(
-                        startTime,
-                        stopTime,
-                        60,
-                        10,
-                        30,
-                        0,
-                        0xFF,
-                        "remarks");
-                //TODO implement!!
-                if (mCommHandler != null){
-                    if (mCommHandler.startProgram(mTelid, mTelidStatus, progParams)){
-                        mButtonProgram.setEnabled(false);
-                        mButtonReadLog.setEnabled(false);
-                        mTextViewResults.append("Programming started...\n");
-                    }
+        mButtonProgram.setOnClickListener(v -> {
+            Calendar startTime = Calendar.getInstance();
+            startTime.set(Calendar.SECOND, 0);
+            startTime.add(Calendar.MINUTE, 10);
+            Calendar stopTime = (Calendar)startTime.clone();
+            stopTime.add(Calendar.DAY_OF_MONTH, 1);
+            TELIDProgramParameters progParams = new TELIDProgramParameters(
+                    startTime,
+                    stopTime,
+                    60,
+                    10,
+                    30,
+                    0,
+                    0xFF,
+                    "remarks");
+            if (mCommHandler != null){
+                if (mCommHandler.startProgram(mTelid, mTelidStatus, progParams)){
+                    mButtonProgram.setEnabled(false);
+                    mButtonReadLog.setEnabled(false);
+                    mTextViewResults.append("Programming started...\n");
                 }
             }
         });
         mButtonProgram.setEnabled(false);
         mButtonReadLog = findViewById(R.id.button_ReadLog);
-        mButtonReadLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCommHandler != null){
+        mButtonReadLog.setOnClickListener(v -> {
+            if (mCommHandler != null){
+                try {
                     if (mCommHandler.startReadProtocol(mTelid, mTelidStatus)) {
                         mButtonProgram.setEnabled(false);
                         mButtonReadLog.setEnabled(false);
                         mTextViewResults.append("ReadProtocol started...\n");
                     }
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
                 }
             }
         });
@@ -128,18 +130,8 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("NFC is disabled")
                     .setMessage("Enable NFC?\n(Selecting NO will close the App)")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivityForResult(new Intent(Settings.ACTION_WIRELESS_SETTINGS), Request_NfcEnable);
-                        }
-                    })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
+                    .setPositiveButton("YES", (dialog, which) -> startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS)))
+                    .setNegativeButton("NO", (dialog, which) -> finish());
             builder.create().show();
         }
         else {
@@ -160,42 +152,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTopTextView(final String _text){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mTextViewTop.setText(_text + "\n");
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> mTextViewTop.setText(String.format("%s\n", _text)));
     }
     private void appendResultText(final String _toAppend){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mTextViewResults.append(_toAppend + "\n");
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> mTextViewResults.append(_toAppend + "\n"));
     }
     //
     private void setMeasurementsText(final String _text){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mTextViewLogMeasurements.setText(_text + "\n");
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> mTextViewLogMeasurements.setText(String.format("%s\n", _text)));
     }
     private void setButtonsEnabled(final boolean _enabled){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mButtonProgram.setEnabled(_enabled);
-                mButtonReadLog.setEnabled(_enabled);
-            }
+        new Handler(Looper.getMainLooper()).post(() -> {
+            mButtonProgram.setEnabled(_enabled);
+            mButtonReadLog.setEnabled(_enabled);
         });
     }
 
     TELIDLoggerCallback mTelidCallback = new TELIDLoggerCallback() {
-
         @Override
         public void telidLost() {
             appendResultText("TAG LOST!!");
@@ -214,22 +187,22 @@ public class MainActivity extends AppCompatActivity {
             for(int i : phData){
                 toAppend.append("   - ");
                 switch (i){
-                    case 1:
+                    case Temperature:
                         toAppend.append("Temperature");
                         break;
-                    case 2:
+                    case Shock:
                         toAppend.append("Shock");
                         break;
-                    case 3:
+                    case Humidity:
                         toAppend.append("Humidity");
                         break;
-                    case 4:
+                    case Pressure:
                         toAppend.append("Pressure");
                         break;
-                    case 10:
+                    case UvIndex:
                         toAppend.append("UV Index");
                         break;
-                    case 11:
+                    case Light:
                         toAppend.append("Light");
                         break;
                 }
@@ -247,13 +220,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void telidRemarksRead(TELIDInformation telidInformation, String remarks) {
-            String toAppend = "REMARKS FOUND\n";
-            toAppend+= remarks;
-            appendResultText(toAppend);
-        }
-
-        @Override
         public void telidStatusRead(TELIDInformation telidInformation, TELIDStateInformation telidStateInformation) {
             String toAppend = "TELID STATUS READ\n";
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
@@ -266,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
             toAppend += " Stop: " + dateFormat.format(telidStateInformation.getExpectedStopTime().getTime()) + "\n";
             toAppend += " LimitMin: " + telidStateInformation.getLimitMin() + "\n";
             toAppend += " LimitMax: " + telidStateInformation.getLimitMax() + "\n";
+            toAppend += " Remarks: "  + telidStateInformation.getRemarks() + "\n";
             appendResultText(toAppend);
 
             mTelid = telidInformation;
@@ -296,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
         public void teildProgrammed(TELIDInformation telidInformation) {
             appendResultText("TELID PROGRAMMED!!");
             setButtonsEnabled(true);
+            mTelidStatus = null; //Programed --> status probably changed. To read status tap TELID again
         }
     };
 }
